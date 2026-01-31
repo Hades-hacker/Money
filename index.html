@@ -1,0 +1,1468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ryan Koome • Winter Couture</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        /* Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --deep-purple: #3d0d65;
+            --highlight-purple: #6a0dad;
+            --light-purple: #9d4edd;
+            --dark-bg: #0f0a1a;
+            --text-light: #ffffff;
+            --text-muted: #b8b8b8;
+            --gold: #d4af37;
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-padding {
+            padding: 80px 0;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Typography */
+        h1, h2, h3, h4, .logo {
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 1rem;
+            color: var(--text-light);
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--deep-purple), var(--highlight-purple));
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            margin-bottom: 3rem;
+            font-size: 1.1rem;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: rgba(15, 10, 26, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 20px 0;
+            transition: var(--transition);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            color: var(--text-light);
+            text-decoration: none;
+        }
+
+        .logo-highlight {
+            color: var(--highlight-purple);
+            margin-left: 5px;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-menu li {
+            margin-left: 30px;
+        }
+
+        .nav-menu a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-menu a:hover {
+            color: var(--light-purple);
+        }
+
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--highlight-purple);
+            transition: var(--transition);
+        }
+
+        .nav-menu a:hover::after {
+            width: 100%;
+        }
+
+        .mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(61, 13, 101, 0.7), rgba(15, 10, 26, 0.9)), 
+                        url('https://images.unsplash.com/photo-1490481651871-ab68de25d43d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero-content {
+            z-index: 2;
+            position: relative;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(90deg, #fff, var(--light-purple));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            line-height: 1.2;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 2.5rem;
+            color: var(--text-muted);
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .btn-hero {
+            display: inline-block;
+            background: linear-gradient(90deg, var(--deep-purple), var(--highlight-purple));
+            color: var(--text-light);
+            padding: 15px 40px;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: var(--transition);
+            border: 2px solid transparent;
+        }
+
+        .btn-hero:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(106, 13, 173, 0.3);
+            border-color: var(--light-purple);
+        }
+
+        .hero-scroll {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--text-light);
+            font-size: 1.5rem;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0) translateX(-50%);}
+            40% {transform: translateY(-10px) translateX(-50%);}
+            60% {transform: translateY(-5px) translateX(-50%);}
+        }
+
+        /* About Section */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+            margin-top: 40px;
+        }
+
+        .about-image {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .about-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: var(--transition);
+        }
+
+        .about-image:hover img {
+            transform: scale(1.05);
+        }
+
+        .about-quote {
+            font-size: 1.8rem;
+            font-style: italic;
+            color: var(--text-light);
+            margin-bottom: 30px;
+            line-height: 1.4;
+            position: relative;
+            padding-left: 20px;
+            border-left: 4px solid var(--highlight-purple);
+        }
+
+        .about-description {
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+
+        .signature {
+            font-family: 'Cinzel', serif;
+            color: var(--gold);
+            font-size: 1.2rem;
+        }
+
+        /* Quote Section */
+        .quote {
+            background: linear-gradient(90deg, var(--deep-purple), var(--highlight-purple));
+            text-align: center;
+        }
+
+        .fashion-quote {
+            font-size: 2.2rem;
+            font-style: italic;
+            color: var(--text-light);
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.4;
+        }
+
+        /* Collections Section */
+        .collection-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .collection-card {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .collection-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(106, 13, 173, 0.2);
+            border-color: var(--light-purple);
+        }
+
+        .collection-img {
+            height: 250px;
+            overflow: hidden;
+        }
+
+        .collection-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .collection-card:hover .collection-img img {
+            transform: scale(1.1);
+        }
+
+        .collection-info {
+            padding: 25px;
+        }
+
+        .collection-title {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--text-light);
+        }
+
+        .collection-desc {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* Ticketing Section */
+        .ticketing {
+            background-color: rgba(15, 10, 26, 0.9);
+        }
+
+        .auth-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .auth-forms {
+            position: relative;
+            min-height: 350px;
+        }
+
+        .auth-form {
+            transition: var(--transition);
+        }
+
+        .auth-form h3 {
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            text-align: center;
+            color: var(--text-light);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            background-color: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: var(--text-light);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--highlight-purple);
+            box-shadow: 0 0 0 2px rgba(106, 13, 173, 0.3);
+        }
+
+        .form-group small {
+            display: block;
+            margin-top: 5px;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .btn-auth {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(90deg, var(--deep-purple), var(--highlight-purple));
+            border: none;
+            border-radius: 8px;
+            color: var(--text-light);
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-auth:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(106, 13, 173, 0.3);
+        }
+
+        .auth-switch {
+            text-align: center;
+            margin-top: 20px;
+            color: var(--text-muted);
+        }
+
+        .auth-switch a {
+            color: var(--light-purple);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .auth-switch a:hover {
+            text-decoration: underline;
+        }
+
+        .user-welcome {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .user-welcome h3 {
+            font-size: 1.8rem;
+            color: var(--text-light);
+        }
+
+        .btn-logout {
+            background: transparent;
+            border: 1px solid var(--light-purple);
+            color: var(--light-purple);
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-logout:hover {
+            background-color: var(--light-purple);
+            color: var(--dark-bg);
+        }
+
+        .ticket-card {
+            background: linear-gradient(135deg, rgba(61, 13, 101, 0.3), rgba(106, 13, 173, 0.3));
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .ticket-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .ticket-header h4 {
+            font-size: 1.5rem;
+            color: var(--text-light);
+        }
+
+        .ticket-price {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--gold);
+        }
+
+        .ticket-info p {
+            margin-bottom: 10px;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+        }
+
+        .ticket-info i {
+            margin-right: 10px;
+            color: var(--light-purple);
+        }
+
+        .btn-purchase {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(90deg, var(--deep-purple), var(--highlight-purple));
+            border: none;
+            border-radius: 8px;
+            color: var(--text-light);
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-purchase:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(106, 13, 173, 0.4);
+        }
+
+        .success-message {
+            background-color: rgba(46, 204, 113, 0.2);
+            border: 1px solid #2ecc71;
+            color: #2ecc71;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Contact Section */
+        .contact-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .contact-info {
+            margin-bottom: 40px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            transition: var(--transition);
+        }
+
+        .contact-item:hover {
+            background-color: rgba(255, 255, 255, 0.08);
+            transform: translateX(10px);
+        }
+
+        .contact-item i {
+            font-size: 1.5rem;
+            color: var(--highlight-purple);
+            margin-right: 20px;
+            min-width: 40px;
+        }
+
+        .contact-item h4 {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+            color: var(--text-light);
+        }
+
+        .contact-item p {
+            color: var(--text-muted);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            color: var(--text-light);
+            font-size: 1.3rem;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background-color: var(--highlight-purple);
+            transform: translateY(-5px);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--deep-purple);
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        .footer p {
+            color: var(--text-light);
+            margin-bottom: 10px;
+        }
+
+        .footer-tagline {
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        /* Ticket PDF Modal */
+        .ticket-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            padding: 20px;
+        }
+
+        .ticket-modal-content {
+            background: linear-gradient(135deg, #1a0b2e, #3d0d65);
+            padding: 40px;
+            border-radius: 15px;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            border: 2px solid var(--gold);
+            position: relative;
+        }
+
+        .ticket-modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .ticket-modal-title {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: var(--gold);
+        }
+
+        .ticket-modal-body {
+            margin-bottom: 30px;
+        }
+
+        .ticket-modal-info {
+            text-align: left;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .ticket-modal-info p {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .ticket-modal-info i {
+            margin-right: 10px;
+            color: var(--light-purple);
+            width: 20px;
+        }
+
+        .btn-download, .btn-email {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            margin: 5px;
+        }
+
+        .btn-download {
+            background-color: var(--highlight-purple);
+            color: white;
+        }
+
+        .btn-email {
+            background-color: var(--gold);
+            color: var(--dark-bg);
+        }
+
+        .btn-download:hover, .btn-email:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .hero-title {
+                font-size: 2.8rem;
+            }
+            
+            .about-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            
+            .fashion-quote {
+                font-size: 1.8rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu {
+                position: fixed;
+                top: 80px;
+                left: -100%;
+                flex-direction: column;
+                background-color: var(--dark-bg);
+                width: 100%;
+                text-align: center;
+                transition: var(--transition);
+                padding: 20px 0;
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            }
+            
+            .nav-menu.active {
+                left: 0;
+            }
+            
+            .nav-menu li {
+                margin: 15px 0;
+            }
+            
+            .mobile-toggle {
+                display: block;
+            }
+            
+            .hero-title {
+                font-size: 2.2rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .auth-container {
+                padding: 30px 20px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero-title {
+                font-size: 1.8rem;
+            }
+            
+            .section-padding {
+                padding: 60px 0;
+            }
+            
+            .ticket-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .contact-item {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .contact-item i {
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="#" class="logo">Ryan Koome<span class="logo-highlight">Couture</span></a>
+            <ul class="nav-menu">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#collections">Collections</a></li>
+                <li><a href="#ticketing">VIP Tickets</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li id="auth-toggle"><a href="#ticketing"><i class="fas fa-user"></i> Login</a></li>
+            </ul>
+            <button class="mobile-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-overlay"></div>
+        <div class="container hero-content">
+            <h1 class="hero-title">High Couture • Winter Edition • Power</h1>
+            <p class="hero-subtitle">Where fashion meets code and ambition becomes art.</p>
+            <a href="#collections" class="btn-hero">Enter Collection</a>
+        </div>
+        <div class="hero-scroll">
+            <i class="fas fa-chevron-down"></i>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about section-padding">
+        <div class="container">
+            <h2 class="section-title">The Vision</h2>
+            <div class="about-content">
+                <div class="about-image">
+                    <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Ryan Koome Creative Director">
+                </div>
+                <div class="about-text">
+                    <p class="about-quote">"I design digital experiences the same way couture is designed: with confidence, detail, and attitude."</p>
+                    <p class="about-description">Ryan Koome is a visionary creative director merging the worlds of high fashion and digital innovation. Each collection tells a story of empowerment, identity, and the bold spirit of winter.</p>
+                    <div class="signature">
+                        <p>- Ryan Koome</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quote Section -->
+    <section class="quote section-padding">
+        <div class="container">
+            <blockquote class="fashion-quote">
+                "Fashion is not only clothes – it is identity, story and courage."
+            </blockquote>
+        </div>
+    </section>
+
+    <!-- Collections Section -->
+    <section id="collections" class="collections section-padding">
+        <div class="container">
+            <h2 class="section-title">Winter Edition Collection</h2>
+            <p class="section-subtitle">Crafting narratives through fabric and form</p>
+            <div class="collection-grid">
+                <!-- Collection items will be populated by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Ticketing Section -->
+    <section id="ticketing" class="ticketing section-padding">
+        <div class="container">
+            <h2 class="section-title">VIP Winter Couture Experience</h2>
+            <p class="section-subtitle">Secure your exclusive access to the gala</p>
+            
+            <!-- Auth Forms -->
+            <div class="auth-container">
+                <div class="auth-forms">
+                    <!-- Login Form -->
+                    <div id="login-form" class="auth-form active">
+                        <h3>Existing Guests</h3>
+                        <div class="form-group">
+                            <input type="email" id="login-email" placeholder="Your Email" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" id="login-password" placeholder="Password" required>
+                        </div>
+                        <button id="login-btn" class="btn-auth">Login</button>
+                        <p class="auth-switch">New guest? <a href="#" id="switch-to-signup">Sign up here</a></p>
+                    </div>
+                    
+                    <!-- Signup Form -->
+                    <div id="signup-form" class="auth-form">
+                        <h3>Join The Experience</h3>
+                        <div class="form-group">
+                            <input type="text" id="signup-name" placeholder="Full Name" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="signup-email" placeholder="Email Address" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" id="signup-password" placeholder="Create Password" required>
+                        </div>
+                        <button id="signup-btn" class="btn-auth">Create Account</button>
+                        <p class="auth-switch">Already have an account? <a href="#" id="switch-to-login">Login here</a></p>
+                    </div>
+                </div>
+                
+                <!-- Logged In / Ticket Purchase -->
+                <div id="ticket-purchase" class="hidden">
+                    <div class="user-welcome">
+                        <h3>Welcome, <span id="user-name">Guest</span></h3>
+                        <button id="logout-btn" class="btn-logout">Logout</button>
+                    </div>
+                    
+                    <div class="ticket-details">
+                        <div class="ticket-card">
+                            <div class="ticket-header">
+                                <h4>VIP Winter Couture Gala</h4>
+                                <span class="ticket-price">$450</span>
+                            </div>
+                            <div class="ticket-info">
+                                <p><i class="fas fa-calendar"></i> February 15, 2026 | 7:00 PM</p>
+                                <p><i class="fas fa-map-marker-alt"></i> Ryan Koome Runway Hall, New York</p>
+                                <p><i class="fas fa-star"></i> Includes: Exclusive Show, Afterparty, Meet & Greet</p>
+                            </div>
+                        </div>
+                        
+                        <div class="payment-form">
+                            <h4>Complete Your Reservation</h4>
+                            <div class="form-group">
+                                <input type="tel" id="phone-number" placeholder="Phone Number (for M-Pesa)" required>
+                                <small>For payment simulation only</small>
+                            </div>
+                            <button id="purchase-btn" class="btn-purchase">
+                                <i class="fas fa-ticket-alt"></i> Purchase VIP Ticket
+                            </button>
+                            <div id="payment-status" class="hidden">
+                                <p class="success-message"><i class="fas fa-check-circle"></i> Payment successful! Check your email for your ticket.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact section-padding">
+        <div class="container">
+            <h2 class="section-title">Connect</h2>
+            <p class="section-subtitle">For collaborations and inquiries</p>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <h4>Email</h4>
+                            <p>ryankoome09@gmail.com</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <h4>Phone</h4>
+                            <p>+1 (555) 202-6266</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <h4>Atelier</h4>
+                            <p>Ryan Koome Runway Hall, 5th Avenue, NY</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="#"><i class="fab fa-pinterest"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>© 2026 Ryan Koome • Winter Couture Mindset</p>
+            <p class="footer-tagline">Where digital innovation meets sartorial excellence</p>
+        </div>
+    </footer>
+
+    <!-- Ticket PDF Modal -->
+    <div id="ticket-modal" class="ticket-modal hidden">
+        <div class="ticket-modal-content">
+            <button id="close-modal" class="ticket-modal-close">&times;</button>
+            <h3 class="ticket-modal-title">Your VIP Ticket</h3>
+            <div class="ticket-modal-body">
+                <div class="ticket-modal-info">
+                    <p><i class="fas fa-user"></i> <span id="ticket-name">Guest Name</span></p>
+                    <p><i class="fas fa-calendar"></i> February 15, 2026 | 7:00 PM</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Ryan Koome Runway Hall, New York</p>
+                    <p><i class="fas fa-barcode"></i> Ticket ID: <span id="ticket-id">RK-VIP-2026-001</span></p>
+                </div>
+                <p>Your VIP ticket has been generated successfully! You can download it or have it sent to your email.</p>
+            </div>
+            <button id="download-ticket" class="btn-download">
+                <i class="fas fa-download"></i> Download PDF
+            </button>
+            <button id="email-ticket" class="btn-email">
+                <i class="fas fa-envelope"></i> Send to Email
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Collections Data
+        const collections = [
+            {
+                id: 1,
+                title: "Arctic Elegance",
+                description: "A collection inspired by the silent majesty of winter landscapes, featuring structured silhouettes and metallic accents.",
+                image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 2,
+                title: "Midnight Sovereign",
+                description: "Dark luxury meets winter sophistication with deep velvets and intricate embroidery under moonlit inspiration.",
+                image: "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 3,
+                title: "Frozen Flame",
+                description: "Contrasting textures of ice-like sequins with warm fur trims, representing resilience in winter's embrace.",
+                image: "https://images.unsplash.com/photo-1519699047748-de8e457a634e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 4,
+                title: "Royal Frost",
+                description: "Regal purples and silver threadwork inspired by winter monarchs, with cape silhouettes and crystal detailing.",
+                image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 5,
+                title: "Urban Tundra",
+                description: "Modern winter warrior aesthetics combining technical fabrics with traditional couture craftsmanship.",
+                image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+            },
+            {
+                id: 6,
+                title: "Celestial Winter",
+                description: "Starry night-inspired collection with celestial patterns, iridescent fabrics, and ethereal draping.",
+                image: "https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+            }
+        ];
+
+        // DOM Elements
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile Navigation Toggle
+            const mobileToggle = document.querySelector('.mobile-toggle');
+            const navMenu = document.querySelector('.nav-menu');
+            
+            if (mobileToggle) {
+                mobileToggle.addEventListener('click', () => {
+                    navMenu.classList.toggle('active');
+                });
+            }
+            
+            // Smooth Scrolling for Navigation Links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    if (this.getAttribute('href') === '#') return;
+                    
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    
+                    if (targetElement) {
+                        // Close mobile menu if open
+                        navMenu.classList.remove('active');
+                        
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+            
+            // Initialize Collections
+            renderCollections();
+            
+            // Initialize Authentication
+            initAuth();
+            
+            // Initialize Ticket Purchase
+            initTicketPurchase();
+            
+            // Initialize Ticket Modal
+            initTicketModal();
+        });
+
+        // Render Collections to the Grid
+        function renderCollections() {
+            const collectionGrid = document.querySelector('.collection-grid');
+            
+            if (!collectionGrid) return;
+            
+            collections.forEach(collection => {
+                const collectionCard = document.createElement('div');
+                collectionCard.className = 'collection-card';
+                
+                collectionCard.innerHTML = `
+                    <div class="collection-img">
+                        <img src="${collection.image}" alt="${collection.title}">
+                    </div>
+                    <div class="collection-info">
+                        <h3 class="collection-title">${collection.title}</h3>
+                        <p class="collection-desc">${collection.description}</p>
+                    </div>
+                `;
+                
+                collectionGrid.appendChild(collectionCard);
+            });
+        }
+
+        // Authentication System
+        function initAuth() {
+            const loginForm = document.getElementById('login-form');
+            const signupForm = document.getElementById('signup-form');
+            const ticketPurchase = document.getElementById('ticket-purchase');
+            const switchToSignup = document.getElementById('switch-to-signup');
+            const switchToLogin = document.getElementById('switch-to-login');
+            const loginBtn = document.getElementById('login-btn');
+            const signupBtn = document.getElementById('signup-btn');
+            const logoutBtn = document.getElementById('logout-btn');
+            const authToggle = document.getElementById('auth-toggle');
+            
+            // Check if user is already logged in
+            checkAuthStatus();
+            
+            // Switch between login and signup forms
+            if (switchToSignup) {
+                switchToSignup.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    loginForm.classList.remove('active');
+                    signupForm.classList.add('active');
+                });
+            }
+            
+            if (switchToLogin) {
+                switchToLogin.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    signupForm.classList.remove('active');
+                    loginForm.classList.add('active');
+                });
+            }
+            
+            // Login functionality
+            if (loginBtn) {
+                loginBtn.addEventListener('click', () => {
+                    const email = document.getElementById('login-email').value;
+                    const password = document.getElementById('login-password').value;
+                    
+                    if (!email || !password) {
+                        alert('Please fill in all fields');
+                        return;
+                    }
+                    
+                    // For demo purposes, accept any non-empty credentials
+                    const user = {
+                        name: email.split('@')[0],
+                        email: email
+                    };
+                    
+                    localStorage.setItem('coutureUser', JSON.stringify(user));
+                    checkAuthStatus();
+                    alert('Login successful!');
+                });
+            }
+            
+            // Signup functionality
+            if (signupBtn) {
+                signupBtn.addEventListener('click', () => {
+                    const name = document.getElementById('signup-name').value;
+                    const email = document.getElementById('signup-email').value;
+                    const password = document.getElementById('signup-password').value;
+                    
+                    if (!name || !email || !password) {
+                        alert('Please fill in all fields');
+                        return;
+                    }
+                    
+                    if (password.length < 6) {
+                        alert('Password must be at least 6 characters');
+                        return;
+                    }
+                    
+                    const user = {
+                        name: name,
+                        email: email
+                    };
+                    
+                    localStorage.setItem('coutureUser', JSON.stringify(user));
+                    checkAuthStatus();
+                    alert('Account created successfully!');
+                });
+            }
+            
+            // Logout functionality
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', () => {
+                    localStorage.removeItem('coutureUser');
+                    checkAuthStatus();
+                    alert('Logged out successfully');
+                });
+            }
+        }
+
+        // Check authentication status and update UI
+        function checkAuthStatus() {
+            const loginForm = document.getElementById('login-form');
+            const signupForm = document.getElementById('signup-form');
+            const ticketPurchase = document.getElementById('ticket-purchase');
+            const authToggle = document.getElementById('auth-toggle');
+            const userName = document.getElementById('user-name');
+            
+            const user = JSON.parse(localStorage.getItem('coutureUser'));
+            
+            if (user) {
+                // User is logged in
+                if (loginForm) loginForm.classList.remove('active');
+                if (signupForm) signupForm.classList.remove('active');
+                if (ticketPurchase) ticketPurchase.classList.remove('hidden');
+                if (userName) userName.textContent = user.name;
+                if (authToggle) {
+                    authToggle.innerHTML = '<a href="#ticketing"><i class="fas fa-user-check"></i> Account</a>';
+                }
+            } else {
+                // User is not logged in
+                if (loginForm) loginForm.classList.add('active');
+                if (signupForm) signupForm.classList.remove('active');
+                if (ticketPurchase) ticketPurchase.classList.add('hidden');
+                if (userName) userName.textContent = 'Guest';
+                if (authToggle) {
+                    authToggle.innerHTML = '<a href="#ticketing"><i class="fas fa-user"></i> Login</a>';
+                }
+            }
+        }
+
+        // Initialize Ticket Purchase System
+        function initTicketPurchase() {
+            const purchaseBtn = document.getElementById('purchase-btn');
+            
+            if (purchaseBtn) {
+                purchaseBtn.addEventListener('click', () => {
+                    const user = JSON.parse(localStorage.getItem('coutureUser'));
+                    
+                    if (!user) {
+                        alert('Please login or sign up first');
+                        return;
+                    }
+                    
+                    const phoneNumber = document.getElementById('phone-number').value;
+                    
+                    if (!phoneNumber) {
+                        alert('Please enter a phone number for payment simulation');
+                        return;
+                    }
+                    
+                    // Simulate M-Pesa payment
+                    simulateMPesaPayment(user.name, phoneNumber, 450);
+                });
+            }
+        }
+
+        // Simulate M-Pesa Payment
+        function simulateMPesaPayment(name, phone, amount) {
+            const paymentStatus = document.getElementById('payment-status');
+            
+            // Show processing message
+            purchaseBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing Payment...';
+            purchaseBtn.disabled = true;
+            
+            // Simulate API call delay
+            setTimeout(() => {
+                // Generate random transaction ID
+                const transactionId = 'MPESA' + Date.now().toString().slice(-8);
+                
+                // Show success message
+                purchaseBtn.innerHTML = '<i class="fas fa-ticket-alt"></i> Purchase VIP Ticket';
+                purchaseBtn.disabled = false;
+                
+                if (paymentStatus) {
+                    paymentStatus.classList.remove('hidden');
+                }
+                
+                // Generate ticket
+                generateTicket(name, phone, transactionId);
+                
+                // Scroll to show success message
+                setTimeout(() => {
+                    paymentStatus.scrollIntoView({ behavior: 'smooth' });
+                }, 500);
+                
+            }, 2000);
+        }
+
+        // Generate Ticket and Show Modal
+        function generateTicket(name, phone, transactionId) {
+            const user = JSON.parse(localStorage.getItem('coutureUser'));
+            
+            // Update modal with user info
+            document.getElementById('ticket-name').textContent = user.name;
+            document.getElementById('ticket-id').textContent = transactionId;
+            
+            // Show modal
+            document.getElementById('ticket-modal').classList.remove('hidden');
+        }
+
+        // Initialize Ticket Modal
+        function initTicketModal() {
+            const closeModal = document.getElementById('close-modal');
+            const downloadTicket = document.getElementById('download-ticket');
+            const emailTicket = document.getElementById('email-ticket');
+            const ticketModal = document.getElementById('ticket-modal');
+            
+            if (closeModal) {
+                closeModal.addEventListener('click', () => {
+                    ticketModal.classList.add('hidden');
+                });
+            }
+            
+            // Close modal when clicking outside
+            ticketModal.addEventListener('click', (e) => {
+                if (e.target === ticketModal) {
+                    ticketModal.classList.add('hidden');
+                }
+            });
+            
+            // Download PDF Ticket
+            if (downloadTicket) {
+                downloadTicket.addEventListener('click', generatePDFTicket);
+            }
+            
+            // Email Ticket
+            if (emailTicket) {
+                emailTicket.addEventListener('click', () => {
+                    const user = JSON.parse(localStorage.getItem('coutureUser'));
+                    if (user && user.email) {
+                        alert(`Ticket would be sent to ${user.email}\n\nIn a full implementation, this would trigger:\n1. Backend API call to /send-ticket-email\n2. PDF generation with PDFKit\n3. Email delivery via Nodemailer/Gmail\n\nFor this demo, you can download the PDF instead.`);
+                    } else {
+                        alert('Please login with a valid email to receive your ticket');
+                    }
+                });
+            }
+        }
+
+        // Generate PDF Ticket
+        function generatePDFTicket() {
+            const user = JSON.parse(localStorage.getItem('coutureUser'));
+            const ticketId = document.getElementById('ticket-id').textContent;
+            
+            // Create a printable ticket element
+            const ticketElement = document.createElement('div');
+            ticketElement.style.cssText = `
+                width: 600px;
+                height: 400px;
+                background: linear-gradient(135deg, #1a0b2e, #3d0d65);
+                color: white;
+                padding: 40px;
+                font-family: 'Cinzel', 'Montserrat', sans-serif;
+                border: 3px solid #d4af37;
+                border-radius: 15px;
+                position: relative;
+                overflow: hidden;
+            `;
+            
+            ticketElement.innerHTML = `
+                <div style="position: absolute; top: 20px; right: 20px; font-size: 12px; opacity: 0.7;">VIP</div>
+                <h1 style="color: #d4af37; margin-bottom: 30px; font-size: 32px; text-align: center;">VIP Winter Couture Ticket</h1>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 30px;">
+                    <div>
+                        <h3 style="color: #9d4edd; margin-bottom: 10px;">Attendee</h3>
+                        <p style="font-size: 20px;">${user.name}</p>
+                    </div>
+                    <div>
+                        <h3 style="color: #9d4edd; margin-bottom: 10px;">Date</h3>
+                        <p style="font-size: 20px;">Feb 15, 2026</p>
+                    </div>
+                </div>
+                <div style="margin-bottom: 30px;">
+                    <h3 style="color: #9d4edd; margin-bottom: 10px;">Event</h3>
+                    <p style="font-size: 20px;">Winter Couture Gala 2026</p>
+                </div>
+                <div style="margin-bottom: 30px;">
+                    <h3 style="color: #9d4edd; margin-bottom: 10px;">Location</h3>
+                    <p style="font-size: 18px;">Ryan Koome Runway Hall, 5th Avenue, New York</p>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <h3 style="color: #9d4edd; margin-bottom: 10px;">Ticket ID</h3>
+                        <p style="font-size: 16px;">${ticketId}</p>
+                    </div>
+                    <div style="width: 100px; height: 100px; background: white; padding: 5px;">
+                        <div style="width: 90px; height: 90px; background: #f0f0f0; display: flex; align-items: center; justify-content: center;">
+                            <span style="color: black; font-size: 12px;">QR Code</span>
+                        </div>
+                    </div>
+                </div>
+                <div style="position: absolute; bottom: 20px; left: 0; width: 100%; text-align: center; font-size: 12px; opacity: 0.7;">
+                    © 2026 Ryan Koome Couture • VIP Access Required
+                </div>
+            `;
+            
+            // Add to body temporarily
+            document.body.appendChild(ticketElement);
+            
+            // Use html2canvas to capture the ticket
+            html2canvas(ticketElement).then(canvas => {
+                // Remove temporary element
+                document.body.removeChild(ticketElement);
+                
+                // Create PDF
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF('p', 'mm', 'a4');
+                const imgData = canvas.toDataURL('image/png');
+                
+                // Add image to PDF
+                pdf.addImage(imgData, 'PNG', 10, 10, 190, 120);
+                
+                // Add additional info
+                pdf.setFontSize(22);
+                pdf.setTextColor(106, 13, 173);
+                pdf.text('VIP Winter Couture Gala Ticket', 105, 140, { align: 'center' });
+                
+                pdf.setFontSize(12);
+                pdf.setTextColor(0, 0, 0);
+                pdf.text(`This is your official VIP ticket for the Winter Couture Gala 2026.`, 105, 150, { align: 'center' });
+                pdf.text(`Please present this ticket at the entrance.`, 105, 155, { align: 'center' });
+                pdf.text(`Ticket Holder: ${user.name}`, 105, 165, { align: 'center' });
+                pdf.text(`Ticket ID: ${ticketId}`, 105, 170, { align: 'center' });
+                pdf.text(`Event Date: February 15, 2026 | 7:00 PM`, 105, 175, { align: 'center' });
+                
+                // Save PDF
+                pdf.save(`Ryan-Koome-VIP-Ticket-${ticketId}.pdf`);
+                
+                // Close modal
+                document.getElementById('ticket-modal').classList.add('hidden');
+                
+                // Show download confirmation
+                alert(`PDF ticket downloaded successfully!\n\nFile: Ryan-Koome-VIP-Ticket-${ticketId}.pdf`);
+            });
+        }
+
+        // Check auth status on page load
+        window.addEventListener('load', checkAuthStatus);
+    </script>
+</body>
+</html>
